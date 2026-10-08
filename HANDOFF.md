@@ -8,7 +8,7 @@ Keep context text on the left and interactive cards on the right on menu and cha
 
 ## Current implementation
 
-- `src/routes/+page.svelte` orchestrates the idle, topics, and chapter views, including navigation, scaling, and idle timers. Chapter 1–6 content and media references live in `src/lib/kiosk/chapters.ts`; the independently flippable story markup lives in `src/lib/kiosk/StoryCard.svelte`.
+- `src/routes/+page.svelte` orchestrates the idle, topics, and chapter views, including navigation, scaling, and the four-minute inactivity timer that returns directly to idle without a warning. Chapter 1–6 content and media references live in `src/lib/kiosk/chapters.ts`; the independently flippable story markup lives in `src/lib/kiosk/StoryCard.svelte`.
 - `src/lib/kiosk/IdleScreen.svelte` owns the two rotating sustainability headlines and GSAP SplitText animation, with a reduced-motion fallback. The small, spaced, black `TAP TO EXPLORE` prompt fades in and out near the bottom.
 - **Idle navigation is deliberately blocked:** the idle button has no click handler. This was requested while iterating. Do not quietly reconnect it.
 - The standalone `/flip-card` experiment (three chapter 3 cards) was removed at the user's request. The main chapter views remain in `src/routes/+page.svelte`.
