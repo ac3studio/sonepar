@@ -1,17 +1,10 @@
 <script lang="ts">
-  import {
-    chapters,
-    ChapterView,
-    IdleScreen,
-    KioskButton,
-    TopicsView
-  } from '$lib/kiosk';
+  import { chapters, ChapterView, IdleScreen, TopicsView } from '$lib/kiosk';
   import { cn } from '$lib/utils';
   import { onMount, tick } from 'svelte';
 
   type View = 'chapter' | 'idle' | 'topics';
   const IDLE_TIMEOUT_MS = 240_000;
-  const IDLE_WARNING_MS = 30_000;
 
   const styles = {
     screen:
@@ -24,15 +17,9 @@
   let flippedCards = $state<number[]>([]);
   let screenScale = $state(1);
   let idleTimer = 0;
-  let warningTimer = 0;
-  let warningInterval = 0;
-  let secondsRemaining = $state(30);
-  let showIdleWarning = $state(false);
 
-  function clearIdleTimers() {
+  function clearIdleTimer() {
     window.clearTimeout(idleTimer);
-    window.clearTimeout(warningTimer);
-    window.clearInterval(warningInterval);
   }
 
   function fitScreen() {
@@ -51,11 +38,6 @@
       ?.focus({ preventScroll: true });
   }
 
-  function keepExploring() {
-    startIdleTimer();
-    void focusView();
-  }
-
   function navigateChapter(direction: -1 | 1) {
     if (selectedChapter === null) return;
     const next = selectedChapter + direction;
@@ -69,15 +51,7 @@
     showView('chapter');
   }
 
-  function resetIdleTimer(event: Event) {
-    const target = event.target;
-    if (
-      showIdleWarning &&
-      target instanceof Element &&
-      target.closest('#idle-warning')
-    ) {
-      return;
-    }
+  function resetIdleTimer() {
     if (view !== 'idle') startIdleTimer();
   }
 
@@ -100,17 +74,9 @@
   }
 
   function startIdleTimer() {
-    clearIdleTimers();
-    showIdleWarning = false;
+    clearIdleTimer();
     if (view === 'idle') return;
-    warningTimer = window.setTimeout(() => {
-      secondsRemaining = IDLE_WARNING_MS / 1000;
-      showIdleWarning = true;
-      warningInterval = window.setInterval(() => {
-        secondsRemaining -= 1;
-      }, 1000);
-      idleTimer = window.setTimeout(returnToIdle, IDLE_WARNING_MS);
-    }, IDLE_TIMEOUT_MS - IDLE_WARNING_MS);
+    idleTimer = window.setTimeout(returnToIdle, IDLE_TIMEOUT_MS);
   }
 
   function toggleCard(index: number) {
@@ -128,7 +94,7 @@
       window.removeEventListener('resize', fitScreen);
       document.removeEventListener('pointerdown', resetIdleTimer);
       document.removeEventListener('keydown', resetIdleTimer);
-      clearIdleTimers();
+      clearIdleTimer();
     };
   });
 </script>
@@ -185,24 +151,6 @@
         onNavigateChapter={navigateChapter}
         onToggleCard={toggleCard}
       />
-    {/if}
-    <span class="sr-only" role="status"
-      >{showIdleWarning
-        ? 'Returning to the start in 30 seconds. Select Keep exploring to stay here.'
-        : ''}</span
-    >
-    {#if showIdleWarning}
-      <div
-        id="idle-warning"
-        class="border-kiosk-ink bg-kiosk-paper text-kiosk-ink absolute bottom-28 left-14 z-30 flex items-center gap-6 rounded-xl border-2 px-5 py-[18px] text-[20px] font-bold shadow-[0_12px_24px_rgb(41_32_0/0.2)]"
-      >
-        <span>Returning to the start soon</span>
-        <span aria-hidden="true">{secondsRemaining}s</span>
-        <KioskButton
-          class="bg-kiosk-ink text-kiosk-paper min-h-12 min-w-0 rounded-[7px] px-[18px] py-2.5 shadow-none"
-          onclick={keepExploring}>Keep exploring</KioskButton
-        >
-      </div>
     {/if}
   </section>
 </main>
