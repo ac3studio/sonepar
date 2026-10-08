@@ -8,8 +8,8 @@
 
   const styles = {
     screen:
-      'experience-screen isolate absolute top-1/2 left-1/2 grid h-[1080px] w-[1920px] origin-center grid-rows-[105px_minmax(0,1fr)] overflow-hidden bg-kiosk-yellow px-14 pt-12 pb-10 text-kiosk-ink [transform:translate(-50%,-50%)_scale(var(--screen-scale))] [touch-action:manipulation]',
-    stage: 'fixed inset-0 overflow-hidden bg-kiosk-yellow'
+      'experience-screen isolate absolute top-1/2 left-1/2 grid h-[1080px] w-[1920px] origin-center grid-rows-[105px_minmax(0,1fr)] overflow-hidden bg-brand px-14 pt-12 pb-10 text-foreground [transform:translate(-50%,-50%)_scale(var(--screen-scale))] [touch-action:manipulation]',
+    stage: 'fixed inset-0 overflow-hidden bg-brand'
   };
 
   let view = $state<View>('idle');
@@ -115,7 +115,7 @@
   >
     <header
       class={cn(
-        'border-kiosk-ink relative z-10 flex items-start justify-between border-b [mix-blend-mode:multiply]',
+        'border-foreground relative z-10 flex items-start justify-between border-b [mix-blend-mode:multiply]',
         view === 'idle' && 'items-end justify-center gap-28 border-b-0'
       )}
     >
@@ -172,6 +172,6 @@
 
   .experience-screen::after {
     inset: 0;
-    background: color-mix(in srgb, var(--color-kiosk-yellow) 48%, transparent);
+    background: color-mix(in srgb, var(--color-brand) 48%, transparent);
   }
 </style>

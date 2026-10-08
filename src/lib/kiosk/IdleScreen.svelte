@@ -74,7 +74,7 @@
 
 <button
   id="idle-start"
-  class="text-kiosk-ink focus-visible:outline-kiosk-ink relative z-10 block h-full w-full cursor-pointer border-0 bg-transparent p-0 text-left [-webkit-tap-highlight-color:transparent] focus-visible:outline-4 focus-visible:outline-offset-[-6px]"
+  class="text-foreground focus-visible:outline-foreground relative z-10 block h-full w-full cursor-pointer border-0 bg-transparent p-0 text-left [-webkit-tap-highlight-color:transparent] focus-visible:outline-4 focus-visible:outline-offset-[-6px]"
   aria-label="Tap to explore Sonepar sustainability topics"
   onclick={onExplore}
 >
@@ -84,15 +84,15 @@
     use:animateIdleHeadlines
   >
     <span
-      class="idle-cta-line text-kiosk-hero absolute inset-0 block opacity-0 first:opacity-100"
+      class="idle-cta-line text-hero absolute inset-0 block opacity-0 first:opacity-100"
       >Explore Sonepar’s<br />sustainability initiatives</span
     >
-    <span class="idle-cta-line text-kiosk-hero absolute inset-0 block opacity-0"
+    <span class="idle-cta-line text-hero absolute inset-0 block opacity-0"
       >Discover the stories<br />behind our progress</span
     >
   </span>
   <span
-    class="idle-prompt text-kiosk-label text-kiosk-ink absolute bottom-[8%] left-1/2 -translate-x-1/2 px-6 py-4 text-center uppercase"
+    class="idle-prompt text-label text-foreground absolute bottom-[8%] left-1/2 -translate-x-1/2 px-6 py-4 text-center uppercase"
     aria-hidden="true">Tap to explore</span
   >
 </button>

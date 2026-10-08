@@ -27,27 +27,27 @@
 </script>
 
 <div
-  class="text-kiosk-ink relative z-10 grid h-full w-full grid-rows-[minmax(0,1fr)_90px]"
+  class="text-foreground relative z-10 grid h-full w-full grid-rows-[minmax(0,1fr)_90px]"
 >
   <SplitViewLayout>
     <div class="flex flex-col items-start self-stretch pt-9">
       <KioskButton onclick={onBack}>
         <span aria-hidden="true">←</span> Topics
       </KioskButton>
-      <p class="text-kiosk-label mt-auto mb-[18px] uppercase">
+      <p class="text-label mt-auto mb-[18px] uppercase">
         Sustainability / {chapter.number}
       </p>
       <h1
-        class="text-kiosk-display m-0 max-w-[470px] tracking-[-0.065em] text-balance"
+        class="text-display m-0 max-w-[470px] tracking-[-0.065em] text-balance"
         id="view-title"
         tabindex="-1"
       >
         {chapter.title}
       </h1>
-      <p class="text-kiosk-body mt-6 max-w-[430px]">
+      <p class="text-body mt-6 max-w-[430px]">
         {chapter.summary}
       </p>
-      <div class="text-kiosk-label mt-auto mb-[42px] flex items-center gap-4">
+      <div class="text-label mt-auto mb-[42px] flex items-center gap-4">
         <span class="h-0.5 w-11 bg-current"></span>Select a card to explore
       </div>
     </div>
@@ -68,7 +68,7 @@
   </SplitViewLayout>
 
   <nav
-    class="border-kiosk-ink flex items-center justify-between border-t-2"
+    class="border-foreground flex items-center justify-between border-t-2"
     aria-label="Chapter navigation"
   >
     <span class="text-[23px] font-bold tabular-nums">
