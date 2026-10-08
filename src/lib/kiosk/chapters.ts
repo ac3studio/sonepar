@@ -90,7 +90,7 @@ export const chapters: Chapter[] = [
       {
         example:
           'Since 2023, Sonepar Brazil, in partnership with Prysmian, has been reusing cable drums to reduce virgin wood consumption.',
-        image: '/images/chapter-03/prysmian.jpg',
+        image: '/images/chapter-03/prysmian.webp',
         logos: [
           { alt: 'Prysmian', src: '/images/chapter-03/prysmian-logo.webp' }
         ],
@@ -99,14 +99,14 @@ export const chapters: Chapter[] = [
       {
         example:
           'Since 2025, Sonepar Sweden and ABB have collaborated on a packaging redesign initiative to reduce waste, optimize transportation, and improve logistics efficiency.',
-        image: '/images/chapter-03/abb.jpg',
+        image: '/images/chapter-03/abb.webp',
         logos: [{ alt: 'ABB', src: '/images/chapter-03/abb-logo.png' }],
         title: 'Redesign packaging'
       },
       {
         example:
           'Since 2024, Technische Unie, a Sonepar company in the Netherlands, and Eaton have been using data-driven insights to improve transport packaging performance.',
-        image: '/images/chapter-03/eaton.jpg',
+        image: '/images/chapter-03/eaton.webp',
         logos: [
           { alt: 'Eaton', src: '/images/chapter-03/eaton-logo.png' },
           { alt: 'Technische Unie', src: '/images/chapter-03/tu-logo.png' }
@@ -125,21 +125,21 @@ export const chapters: Chapter[] = [
       {
         example:
           'Since 2023, Sonepar Brazil, in partnership with Prysmian, has been reusing cable drums to reduce virgin wood consumption.',
-        image: '/images/chapter-04/brazil.jpeg',
+        image: '/images/chapter-04/brazil.webp',
         location: 'Brazil',
         title: 'Reuse cable drums'
       },
       {
         example:
           'Technische Unie, a Sonepar company in the Netherlands, has been improving transport packaging performance through a data-driven optimization initiative.',
-        image: '/images/chapter-04/netherlands.jpg',
+        image: '/images/chapter-04/netherlands.webp',
         location: 'The Netherlands',
         title: 'Optimize transport packaging'
       },
       {
         example:
           'Sonepar Spain is accelerating the transition to low-carbon logistics through fleet decarbonization and lower-emission mobility solutions.',
-        image: '/images/chapter-04/spain.jpg',
+        image: '/images/chapter-04/spain.webp',
         location: 'Spain',
         title: 'Lower-emission mobility'
       }
@@ -154,7 +154,7 @@ export const chapters: Chapter[] = [
       {
         example:
           'Sonepar USA, in partnership with Acuity, donates energy-efficient lighting retrofits to charitable organizations.',
-        image: '/images/chapter-05/acuity.jpeg',
+        image: '/images/chapter-05/acuity.webp',
         logos: [{ alt: 'Acuity', src: '/images/chapter-05/acuity-logo.png' }],
         title: 'Lighting for communities'
       },
@@ -183,13 +183,13 @@ export const chapters: Chapter[] = [
       {
         example:
           'Sonepar Brazil promotes sustainability training programs and campaigns in collaboration with suppliers, raising awareness and accelerating ESG adoption across the value chain.',
-        image: '/images/chapter-06/brazil.jpeg',
+        image: '/images/chapter-06/brazil.webp',
         title: 'Build sustainability awareness'
       },
       {
         example:
           'In Peru, Sonepar and Signify collaborate on social initiatives by donating lighting solutions to underserved communities, improving safety and quality of life.',
-        image: '/images/chapter-06/peru.jpg',
+        image: '/images/chapter-06/peru.webp',
         logos: [{ alt: 'Signify', src: '/images/chapter-06/signify-logo.png' }],
         title: 'Light underserved communities'
       }
