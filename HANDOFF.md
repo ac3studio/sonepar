@@ -12,7 +12,7 @@ Keep context text on the left and interactive cards on the right on menu and cha
 - `src/lib/kiosk/IdleScreen.svelte` owns the two rotating sustainability headlines and GSAP SplitText animation, with a reduced-motion fallback. The small, spaced, black `TAP TO EXPLORE` prompt fades in and out near the bottom.
 - **Idle navigation is deliberately blocked:** the idle button has no click handler. This was requested while iterating. Do not quietly reconnect it.
 - The standalone `/flip-card` experiment (three chapter 3 cards) was removed at the user's request. The main chapter views remain in `src/routes/+page.svelte`.
-- Tailwind utilities now hold straightforward grid and card layout styling in the Svelte markup. `src/app.css` retains the shared kiosk treatment, blurred background, 3D flip effects, and responsive overrides. `README.md` covers the landscape target, reflow, idle timeout behavior, and local Roboto fonts.
+- Tailwind utilities hold layout styling in the Svelte markup. The fixed 1920 × 1080 landscape canvas scales uniformly to fit other displays; mobile and narrow-screen reflow are not supported. `src/app.css` holds shared theme tokens, the local font face, and base styling; scoped component CSS is reserved for effects that need it. `README.md` covers the landscape target, idle timeout behavior, and local Roboto fonts.
 
 ## Asset and content rules
 

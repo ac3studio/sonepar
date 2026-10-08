@@ -1,5 +1,46 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-kiosk-yellow: #f4c400;
+  --color-kiosk-ink: #171913;
+  --color-kiosk-paper: #f7f4e8;
+  --color-kiosk-photo: #2b3033;
+
+  --font-kiosk: Roboto, Arial, sans-serif;
+
+  --text-kiosk-display: 4.1875rem;
+  --text-kiosk-display--line-height: 1.02;
+  --text-kiosk-display--font-weight: 750;
+  --text-kiosk-display--letter-spacing: -0.06em;
+
+  --text-kiosk-hero: clamp(76px, 6.5vw, 105px);
+  --text-kiosk-hero--line-height: 1.08;
+  --text-kiosk-hero--font-weight: 650;
+  --text-kiosk-hero--letter-spacing: -0.055em;
+
+  --text-kiosk-body: 1.4375rem;
+  --text-kiosk-body--line-height: 1.4;
+
+  --text-kiosk-topic: 2.25rem;
+  --text-kiosk-topic--line-height: 1.14;
+  --text-kiosk-topic--font-weight: 700;
+  --text-kiosk-topic--letter-spacing: -0.04em;
+
+  --text-kiosk-card: 1.6875rem;
+  --text-kiosk-card--line-height: 1.15;
+  --text-kiosk-card--font-weight: 700;
+  --text-kiosk-card--letter-spacing: -0.035em;
+
+  --text-kiosk-story: 2.5rem;
+  --text-kiosk-description: 1.4375rem;
+  --text-kiosk-description--line-height: 1.45;
+
+  --text-kiosk-label: 1.125rem;
+  --text-kiosk-label--line-height: 1.2;
+  --text-kiosk-label--font-weight: 700;
+  --text-kiosk-label--letter-spacing: 0.12em;
+}
+
 @font-face {
   font-family: Roboto;
   src: url('/fonts/Roboto-variable.ttf') format('truetype');
@@ -11,7 +52,7 @@
 @layer base {
   body {
     margin: 0;
-    font-family: Roboto, Arial, sans-serif;
+    font-family: var(--font-kiosk);
     -webkit-font-smoothing: antialiased;
   }
 }

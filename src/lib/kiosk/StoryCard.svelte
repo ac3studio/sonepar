@@ -1,30 +1,53 @@
 <script lang="ts">
   import type { Card } from '$lib/kiosk/chapters';
+
   import { cn } from '$lib/utils/cn';
 
   type Props = {
     card: Card;
-    index: number;
     flipped: boolean;
+    index: number;
     onToggle: (index: number) => void;
   };
 
-  let { card, index, flipped, onToggle }: Props = $props();
+  let { card, flipped, index, onToggle }: Props = $props();
 </script>
 
 <button
-  class="relative min-w-0 cursor-pointer rounded-[22px] border-0 bg-transparent p-0 text-left text-inherit [perspective:1200px] focus-visible:outline-4 focus-visible:outline-offset-[5px] focus-visible:outline-[#171913] disabled:cursor-default active:[&:not(:disabled)_.story-card-face]:brightness-[0.94] max-[70rem]:min-h-[640px] max-[43rem]:min-h-[560px]"
+  class="focus-visible:outline-kiosk-ink relative min-w-0 cursor-pointer rounded-[22px] border-0 bg-transparent p-0 text-left text-inherit [perspective:1200px] focus-visible:outline-4 focus-visible:outline-offset-[5px] disabled:cursor-default enabled:active:[&_.story-card-face]:brightness-[0.94]"
   aria-label={`${card.location ? `${card.location}. ` : ''}${card.title}${card.logos?.length ? `. ${card.logos.map((logo) => logo.alt).join(', ')}` : ''}. ${card.example ? (flipped ? (card.image ? 'Show image' : 'Show logos') : 'Show story') : 'Story text pending correction'}`}
   disabled={!card.example}
+  aria-expanded={flipped}
+  aria-controls={`story-card-copy-${index}`}
+  aria-describedby={flipped && card.example
+    ? `story-card-copy-${index}`
+    : undefined}
   onclick={() => onToggle(index)}
 >
-  <span class={cn('absolute inset-0 [transform-style:preserve-3d] motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.2,0,0,1)]', flipped && '[transform:rotateY(180deg)]')}>
-    <span class="story-card-face absolute inset-0 flex flex-col overflow-hidden rounded-[18px] bg-[#f7f4e8] text-[#171913] shadow-[0_14px_26px_rgb(41_32_0/0.13)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
+  <span
+    class={cn(
+      'absolute inset-0 [transform-style:preserve-3d] motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.2,0,0,1)]',
+      flipped && '[transform:rotateY(180deg)]'
+    )}
+  >
+    <span
+      class="story-card-face bg-kiosk-paper text-kiosk-ink absolute inset-0 flex flex-col overflow-hidden rounded-[18px] shadow-[0_14px_26px_rgb(41_32_0/0.13)] [-webkit-backface-visibility:hidden] [backface-visibility:hidden]"
+      aria-hidden={flipped}
+    >
       <span
-        class={cn('relative flex min-h-0 flex-1 overflow-hidden bg-[#2b3033]', !card.image && 'grid place-items-center bg-[#f7f4e8] px-7 pt-[60px] pb-6')}
+        class={cn(
+          'bg-kiosk-photo relative flex min-h-0 flex-1 overflow-hidden',
+          !card.image &&
+            'bg-kiosk-paper grid place-items-center px-7 pt-[60px] pb-6'
+        )}
       >
         {#if card.image}
-          <img class="absolute inset-0 h-full w-full object-cover" src={card.image} alt="" draggable="false" />
+          <img
+            class="absolute inset-0 h-full w-full object-cover"
+            src={card.image}
+            alt=""
+            draggable="false"
+          />
         {:else}
           <span
             class={cn(
@@ -33,19 +56,35 @@
             )}
           >
             {#each card.logos ?? [] as logo (logo.src)}
-              <img class={cn('block max-h-[84px] max-w-[88%] object-contain [mix-blend-mode:multiply]', card.logos?.length === 1 && 'max-h-40 max-w-[92%]')} src={logo.src} alt="" draggable="false" />
+              <img
+                class={cn(
+                  'block max-h-[84px] max-w-[88%] object-contain [mix-blend-mode:multiply]',
+                  card.logos?.length === 1 && 'max-h-40 max-w-[92%]'
+                )}
+                src={logo.src}
+                alt=""
+                draggable="false"
+              />
             {/each}
           </span>
         {/if}
-        {#if card.location}<span class="absolute bottom-[18px] left-[18px] bg-[#171913] px-4 py-2.5 text-[18px] leading-[1.1] font-bold text-[#f7f4e8]"
+        {#if card.location}<span
+            class="bg-kiosk-ink text-kiosk-paper absolute bottom-[18px] left-[18px] px-4 py-2.5 text-[18px] leading-[1.1] font-bold"
             >{card.location}</span
           >{/if}
       </span>
-      <span class="flex h-[158px] flex-[0_0_158px] flex-col justify-between px-[22px] pt-[18px] pb-5">
+      <span
+        class="flex h-[158px] flex-[0_0_158px] flex-col justify-between px-[22px] pt-[18px] pb-5"
+      >
         {#if card.image && card.logos?.length}
           <span class="flex h-11 items-center gap-[14px]">
             {#each card.logos as logo (logo.src)}
-              <img class="block max-h-9 max-w-[125px] object-contain [mix-blend-mode:multiply]" src={logo.src} alt="" draggable="false" />
+              <img
+                class="block max-h-9 max-w-[125px] object-contain [mix-blend-mode:multiply]"
+                src={logo.src}
+                alt=""
+                draggable="false"
+              />
             {/each}
           </span>
         {/if}
@@ -53,28 +92,32 @@
             >Story text pending</span
           >{/if}
         <span class="mt-auto flex items-end justify-between gap-3">
-          <span class="block text-[27px] leading-[1.15] font-bold tracking-[-0.035em]">{card.title}</span>
+          <span class="text-kiosk-card block">{card.title}</span>
         </span>
       </span>
     </span>
-    <span class="story-card-face absolute inset-0 flex flex-col justify-between overflow-hidden rounded-[18px] bg-[#171913] p-7 text-[#f7f4e8] [transform:rotateY(180deg)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden]" aria-hidden={!flipped}>
+    <span
+      class="story-card-face bg-kiosk-ink text-kiosk-paper absolute inset-0 flex [transform:rotateY(180deg)] flex-col justify-between overflow-hidden rounded-[18px] p-7 [-webkit-backface-visibility:hidden] [backface-visibility:hidden]"
+      aria-hidden={!flipped}
+    >
       <span class="flex items-start justify-between gap-4">
-        {#if card.image && card.logos?.length === 1}<img class="block max-h-10 max-w-[125px] bg-[#f7f4e8] object-contain p-2 rounded-sm"
+        {#if card.image && card.logos?.length === 1}<img
+            class="bg-kiosk-paper block max-h-10 max-w-[125px] rounded-sm object-contain p-2"
             src={card.logos[0].src}
             alt=""
             draggable="false"
           />{/if}
       </span>
       <span class="p-0">
-        <span class="block text-[40px] leading-[1.15] font-bold tracking-[-0.035em] max-[43rem]:text-[30px]">{card.title}</span>
-        <span class="mt-7 block text-[23px] leading-[1.45] [text-wrap:pretty] max-[43rem]:text-[19px]"
+        <span class="text-kiosk-story block leading-[1.15] font-bold"
+          >{card.title}</span
+        >
+        <span
+          id={`story-card-copy-${index}`}
+          class="text-kiosk-description mt-7 block [text-wrap:pretty]"
           >{card.example ?? 'Story text pending correction.'}</span
         >
       </span>
-      <span class="border-t border-current pt-[14px] text-[17px] font-semibold"
-        ></span
-      >
     </span>
   </span>
 </button>
-
