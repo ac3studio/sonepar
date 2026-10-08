@@ -58,7 +58,7 @@
             {#each card.logos ?? [] as logo (logo.src)}
               <img
                 class={cn(
-                  'block max-h-[84px] max-w-[88%] object-contain [mix-blend-mode:multiply]',
+                  'block max-h-[104px] max-w-[92%] object-contain [mix-blend-mode:multiply]',
                   card.logos?.length === 1 && 'max-h-40 max-w-[92%]'
                 )}
                 src={logo.src}
@@ -77,10 +77,10 @@
         class="flex h-[158px] flex-[0_0_158px] flex-col justify-between px-[22px] pt-[18px] pb-5"
       >
         {#if card.image && card.logos?.length}
-          <span class="flex h-11 items-center gap-[14px]">
+          <span class="flex h-12 items-center gap-[14px]">
             {#each card.logos as logo (logo.src)}
               <img
-                class="block max-h-9 max-w-[125px] object-contain [mix-blend-mode:multiply]"
+                class="block max-h-11 max-w-[150px] object-contain [mix-blend-mode:multiply]"
                 src={logo.src}
                 alt=""
                 draggable="false"

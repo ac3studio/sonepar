@@ -40,7 +40,7 @@
   --text-label: 1.125rem;
   --text-label--line-height: 1.2;
   --text-label--font-weight: 700;
-  --text-label--letter-spacing: 0.12em;
+  --text-label--letter-spacing: 0.08em;
 }
 
 @font-face {

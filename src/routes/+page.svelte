@@ -1,5 +1,6 @@
 <script lang="ts">
   import { chapters, ChapterView, IdleScreen, TopicsView } from '$lib/kiosk';
+  import { viewTransition } from '$lib/kiosk/viewTransition';
   import { cn } from '$lib/utils';
   import { onMount, tick } from 'svelte';
 
@@ -14,9 +15,11 @@
 
   let view = $state<View>('idle');
   let selectedChapter = $state<null | number>(null);
+  let chapterDirection = $state<-1 | 1>(1);
   let flippedCards = $state<number[]>([]);
   let screenScale = $state(1);
   let idleTimer = 0;
+  const preloadedChapterImages = new Map<string, HTMLImageElement>();
 
   function clearIdleTimer() {
     window.clearTimeout(idleTimer);
@@ -33,9 +36,13 @@
   async function focusView() {
     await tick();
     window.scrollTo(0, 0);
-    document
-      .getElementById(view === 'idle' ? 'idle-start' : 'view-title')
-      ?.focus({ preventScroll: true });
+    const titleId =
+      view === 'idle'
+        ? 'idle-start'
+        : view === 'chapter' && selectedChapter !== null
+          ? `chapter-view-title-${chapters[selectedChapter].number}`
+          : 'view-title';
+    document.getElementById(titleId)?.focus({ preventScroll: true });
   }
 
   function navigateChapter(direction: -1 | 1) {
@@ -46,6 +53,12 @@
   }
 
   function openChapter(index: number) {
+    chapterDirection =
+      view === 'chapter' && selectedChapter !== null
+        ? index > selectedChapter
+          ? 1
+          : -1
+        : 1;
     selectedChapter = index;
     flippedCards = chapters[index].initiallyFlippedCardIndexes ?? [];
     showView('chapter');
@@ -85,15 +98,40 @@
       : [...flippedCards, index];
   }
 
+  function preloadChapterImages() {
+    const sources = new Set<string>();
+    for (const chapter of chapters) {
+      for (const card of chapter.cards) {
+        if (card.image) sources.add(card.image);
+        card.logos?.forEach((logo) => sources.add(logo.src));
+      }
+    }
+
+    for (const src of sources) {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = src;
+      preloadedChapterImages.set(src, image);
+      void image.decode().catch(() => {});
+    }
+  }
+
   onMount(() => {
     fitScreen();
     window.addEventListener('resize', fitScreen);
     document.addEventListener('pointerdown', resetIdleTimer);
     document.addEventListener('keydown', resetIdleTimer);
+    let preloadFrame = 0;
+    const firstPaintFrame = window.requestAnimationFrame(() => {
+      preloadFrame = window.requestAnimationFrame(preloadChapterImages);
+    });
     return () => {
       window.removeEventListener('resize', fitScreen);
       document.removeEventListener('pointerdown', resetIdleTimer);
       document.removeEventListener('keydown', resetIdleTimer);
+      window.cancelAnimationFrame(firstPaintFrame);
+      window.cancelAnimationFrame(preloadFrame);
+      preloadedChapterImages.clear();
       clearIdleTimer();
     };
   });
@@ -137,21 +175,28 @@
       />
     </header>
 
-    {#if view === 'idle'}
-      <IdleScreen onExplore={() => showView('topics')} />
-    {:else if view === 'topics'}
-      <TopicsView {chapters} onSelectChapter={openChapter} />
-    {:else if selectedChapter !== null}
-      <ChapterView
-        chapter={chapters[selectedChapter]}
-        chapterCount={chapters.length}
-        {flippedCards}
-        selectedChapterIndex={selectedChapter}
-        onBack={() => showView('topics')}
-        onNavigateChapter={navigateChapter}
-        onToggleCard={toggleCard}
-      />
-    {/if}
+    <div class="relative h-full min-h-0">
+      {#key view}
+        <div class="absolute inset-0" transition:viewTransition>
+          {#if view === 'idle'}
+            <IdleScreen onExplore={() => showView('topics')} />
+          {:else if view === 'topics'}
+            <TopicsView {chapters} onSelectChapter={openChapter} />
+          {:else if selectedChapter !== null}
+            <ChapterView
+              chapter={chapters[selectedChapter]}
+              chapterCount={chapters.length}
+              {chapterDirection}
+              {flippedCards}
+              selectedChapterIndex={selectedChapter}
+              onBack={() => showView('topics')}
+              onNavigateChapter={navigateChapter}
+              onToggleCard={toggleCard}
+            />
+          {/if}
+        </div>
+      {/key}
+    </div>
   </section>
 </main>
 
@@ -167,7 +212,7 @@
   .experience-screen::before {
     inset: -28px;
     background: url('/images/chapter-background.jpg') center / cover no-repeat;
-    filter: blur(18px);
+    filter: blur(10px);
   }
 
   .experience-screen::after {
