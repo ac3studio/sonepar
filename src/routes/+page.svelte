@@ -1,155 +1,17 @@
 <script lang="ts">
-  import { cn } from '$lib/utils/cn';
-  import { onMount } from 'svelte';
+  import { ChapterView, chapters, IdleScreen, TopicsView } from '$lib/kiosk';
+  import { cn } from '$lib/utils';
+  import { onMount, tick } from 'svelte';
 
-  type View = 'idle' | 'intro' | 'topics' | 'chapter';
-  type Card = { title: string; example: string; image?: string };
-  type Chapter = { number: string; title: string; cards: Card[] };
-  const IDLE_TIMEOUT_MS = 60_000;
-
-  const chapters: Chapter[] = [
-    {
-      number: '01',
-      title: 'Topic 01',
-      cards: [
-        {
-          title: 'Use products longer',
-          example:
-            'When equipment needs attention, consider whether inspection or repair could help keep it in use. Follow the supplier’s guidance for each product.',
-          image: '/images/circuit-board.jpg',
-        },
-        {
-          title: 'Give materials another use',
-          example:
-            'Before disposing of unused items, check whether another team or project could use them.',
-        },
-      ],
-    },
-    {
-      number: '02',
-      title: 'Topic 02',
-      cards: [
-        {
-          title: 'Reduce packaging',
-          example:
-            'Ask suppliers about packaging choices and how the materials can be separated for reuse or recycling.',
-        },
-        {
-          title: 'Group deliveries',
-          example:
-            'When schedules and stock allow, combine orders into fewer deliveries.',
-        },
-        {
-          title: 'Recover materials',
-          example:
-            'At the end of use, sort materials according to the collection options available in your area.',
-        },
-      ],
-    },
-    {
-      number: '03',
-      title: 'Topic 03',
-      cards: [
-        {
-          title: 'Plan ahead',
-          example:
-            'Review existing stock and project requirements before ordering. Clear information can help avoid ordering items already on hand.',
-        },
-        {
-          title: 'Choose what fits',
-          example:
-            'Use the project specification to compare options and choose products that meet the intended requirements.',
-        },
-      ],
-    },
-    {
-      number: '04',
-      title: 'Topic 04',
-      cards: [
-        {
-          title: 'Use less energy',
-          example:
-            'Compare energy requirements when selecting equipment. Rooftop solar panels illustrate one way to generate renewable electricity.',
-          image: '/images/solar-panels.jpg',
-        },
-        {
-          title: 'Maintain equipment',
-          example:
-            'Regular inspection and timely maintenance may help equipment remain useful. Follow the supplier’s instructions for each product.',
-        },
-      ],
-    },
-    {
-      number: '05',
-      title: 'Topic 05',
-      cards: [
-        {
-          title: 'Avoid unused stock',
-          example:
-            'Estimate quantities from the work planned and check current stock before ordering.',
-        },
-        {
-          title: 'Share surplus',
-          example:
-            'Make usable surplus visible to other teams so they can check whether it meets their project needs.',
-        },
-      ],
-    },
-    {
-      number: '06',
-      title: 'Topic 06',
-      cards: [
-        {
-          title: 'Separate materials',
-          example:
-            'Keep different materials separate where local collection guidance recommends it.',
-        },
-        {
-          title: 'Return what can be reused',
-          example:
-            'Ask about return options for unused items and products that can be reused.',
-        },
-      ],
-    },
-  ];
+  type View = 'idle' | 'topics' | 'chapter';
+  const IDLE_TIMEOUT_MS = 240_000;
+  const IDLE_WARNING_MS = 30_000;
 
   const styles = {
-    stage: 'fixed inset-0 overflow-hidden bg-white',
+    stage:
+      'fixed inset-0 overflow-hidden bg-[#f4c400] max-[70rem]:relative max-[70rem]:min-h-dvh max-[70rem]:overflow-visible',
     screen:
-      'absolute top-1/2 left-1/2 grid h-[1920px] w-[1080px] origin-center overflow-hidden bg-white px-14 pt-12 pb-10 text-[#171717] [transform:translate(-50%,-50%)_scale(var(--screen-scale))] [touch-action:manipulation] select-none',
-    appTitle: 'text-[3.5rem] leading-none font-medium tracking-[-0.05em]',
-    appInstruction: 'mt-5 text-[1.5rem] text-[#555]',
-    chapterGrid: 'grid min-h-0 grid-cols-2 grid-rows-3 border-t border-l border-[#bdbdbd]',
-    chapterButton:
-      'flex min-h-0 flex-col items-start justify-between border-r border-b border-[#bdbdbd] p-7 text-left active:bg-[#ededed]',
-    chapterIndex: 'text-xl tabular-nums text-[#666]',
-    chapterTitle: 'text-[1.75rem] leading-tight font-medium tracking-[-0.025em]',
-    backButton:
-      'mb-7 flex h-24 w-full items-center gap-5 border border-[#bdbdbd] bg-white px-7 text-left text-[1.75rem] text-[#171717] active:bg-[#ededed]',
-    chapterHeading: 'pb-8',
-    chapterEyebrow: 'mb-4 text-lg tabular-nums text-[#666]',
-    cardGrid:
-      'isolate grid h-[1080px] min-h-0 max-h-full w-full max-w-[840px] gap-5 justify-self-center self-center',
-    flipCard:
-      'relative z-0 min-h-0 w-full bg-transparent p-0 text-left [perspective:1200px]',
-    flipInner:
-      'absolute inset-0 [transform-style:preserve-3d] transition-transform duration-500 motion-reduce:transition-none',
-    cardFace:
-      'absolute inset-0 flex flex-col items-start justify-between border border-[#bdbdbd] p-8 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]',
-    cardFront: 'bg-white',
-    cardBack: 'bg-[#f1f1f1] [transform:rotateY(180deg)]',
-    cardTitle: 'text-[1.25rem] text-[#555]',
-    cardImage: 'max-h-60 min-h-32 w-full flex-1 object-cover',
-    cardText: 'max-w-full text-[1.875rem] leading-snug font-medium tracking-[-0.025em]',
-    cardDescription: 'max-w-full text-[1.5rem] leading-relaxed',
-    cardHint: 'text-base text-[#666]',
-    chapterNav: 'flex items-center justify-between pt-7',
-    navButton:
-      'min-h-20 min-w-28 border border-[#999] bg-white px-5 text-xl active:bg-[#ededed] disabled:border-[#ddd] disabled:text-[#aaa]',
-    pageCount: 'text-xl tabular-nums text-[#555]',
-    fullButton:
-      'flex h-full w-full flex-col items-center justify-center gap-8 border-0 bg-white text-center active:bg-[#f1f1f1]',
-    introPage: 'flex h-full flex-col justify-between py-8',
+      'experience-screen isolate absolute top-1/2 left-1/2 grid h-[1080px] w-[1920px] origin-center grid-rows-[105px_minmax(0,1fr)] overflow-hidden bg-[#f4c400] px-14 pt-12 pb-10 text-[#171913] [transform:translate(-50%,-50%)_scale(var(--screen-scale))] [touch-action:manipulation] max-[70rem]:relative max-[70rem]:top-auto max-[70rem]:left-auto max-[70rem]:h-auto max-[70rem]:min-h-dvh max-[70rem]:w-full max-[70rem]:grid-rows-[auto_minmax(0,1fr)] max-[70rem]:transform-none max-[70rem]:p-6 max-[43rem]:p-4'
   };
 
   let view = $state<View>('idle');
@@ -157,17 +19,57 @@
   let flippedCards = $state<number[]>([]);
   let screenScale = $state(1);
   let idleTimer = 0;
+  let warningTimer = 0;
+  let warningInterval = 0;
+  let secondsRemaining = $state(30);
+  let showIdleWarning = $state(false);
 
   function fitScreen() {
-    screenScale = Math.min(1, window.innerWidth / 1080, window.innerHeight / 1920);
+    screenScale = Math.min(
+      1,
+      window.innerWidth / 1920,
+      window.innerHeight / 1080
+    );
+  }
+
+  function clearIdleTimers() {
+    window.clearTimeout(idleTimer);
+    window.clearTimeout(warningTimer);
+    window.clearInterval(warningInterval);
+  }
+
+  function startIdleTimer() {
+    clearIdleTimers();
+    showIdleWarning = false;
+    if (view === 'idle') return;
+    warningTimer = window.setTimeout(() => {
+      secondsRemaining = IDLE_WARNING_MS / 1000;
+      showIdleWarning = true;
+      warningInterval = window.setInterval(() => {
+        secondsRemaining -= 1;
+      }, 1000);
+      idleTimer = window.setTimeout(returnToIdle, IDLE_WARNING_MS);
+    }, IDLE_TIMEOUT_MS - IDLE_WARNING_MS);
+  }
+
+  async function focusView() {
+    await tick();
+    window.scrollTo(0, 0);
+    document
+      .getElementById(view === 'idle' ? 'idle-start' : 'view-title')
+      ?.focus({ preventScroll: true });
   }
 
   function showView(nextView: View) {
     view = nextView;
-    window.clearTimeout(idleTimer);
-    if (nextView !== 'idle') {
-      idleTimer = window.setTimeout(returnToIdle, IDLE_TIMEOUT_MS);
-    }
+    document.title =
+      nextView === 'chapter' && selectedChapter !== null
+        ? `${chapters[selectedChapter].title} | Sonepar`
+        : nextView === 'topics'
+          ? 'Choose a topic | Sonepar'
+          : 'Sustainability | Sonepar';
+    startIdleTimer();
+    void focusView();
   }
 
   function returnToIdle() {
@@ -177,13 +79,20 @@
   }
 
   function resetIdleTimer() {
-    if (view !== 'idle') showView(view);
+    if (view !== 'idle') startIdleTimer();
   }
 
   function openChapter(index: number) {
     selectedChapter = index;
-    flippedCards = [];
+    flippedCards = chapters[index].initiallyFlippedCardIndexes ?? [];
     showView('chapter');
+  }
+
+  function navigateChapter(direction: -1 | 1) {
+    if (selectedChapter === null) return;
+    const next = selectedChapter + direction;
+    if (next < 0 || next >= chapters.length) return;
+    openChapter(next);
   }
 
   function toggleCard(index: number) {
@@ -201,7 +110,7 @@
       window.removeEventListener('resize', fitScreen);
       document.removeEventListener('pointerdown', resetIdleTimer);
       document.removeEventListener('keydown', resetIdleTimer);
-      window.clearTimeout(idleTimer);
+      clearIdleTimers();
     };
   });
 </script>
@@ -213,98 +122,93 @@
 
 <main class={styles.stage}>
   <section
-    class={styles.screen}
+    class={cn(
+      styles.screen,
+      view === 'idle' &&
+        'grid-rows-[150px_minmax(0,1fr)] max-[43rem]:grid-rows-[120px_minmax(0,1fr)]'
+    )}
     style={`--screen-scale: ${screenScale}`}
     aria-label="Sustainability touch experience"
   >
+    <header
+      class={cn(
+        'relative z-10 flex items-start justify-between border-b border-[#171913] [mix-blend-mode:multiply] max-[70rem]:min-h-[85px]',
+        view === 'idle' &&
+          'items-end justify-center gap-28 border-b-0 max-[70rem]:gap-16 max-[43rem]:gap-6'
+      )}
+    >
+      <img
+        class={cn(
+          'block h-auto w-[112px] brightness-0 max-[43rem]:w-[86px]',
+          view === 'idle' &&
+            'w-[150px] max-[70rem]:w-[130px] max-[43rem]:w-[100px]'
+        )}
+        src="/images/strategic-supplier-summit.svg"
+        alt="Strategic Supplier Summit"
+      />
+      <img
+        class={cn(
+          'mt-[-8px] block h-auto w-[205px] max-[43rem]:mt-0 max-[43rem]:w-[130px]',
+          view === 'idle' &&
+            'mt-0 w-[270px] max-[70rem]:w-[235px] max-[43rem]:w-[160px]'
+        )}
+        src="/images/sonepar-logo.png"
+        alt="Sonepar"
+      />
+    </header>
+
     {#if view === 'idle'}
-      <button class={styles.fullButton} onclick={() => showView('intro')}>
-        <span class={styles.appTitle}>Sustainability</span>
-        <span class={styles.appInstruction}>Tap to start</span>
-      </button>
-    {:else if view === 'intro'}
-      <div class={styles.introPage}>
-        <p class={styles.chapterEyebrow}>SUSTAINABILITY</p>
-        <div>
-          <h1 class={styles.appTitle}>A short interactive guide</h1>
-          <p class={styles.appInstruction}>Explore six topics. Tap a card to see more.</p>
-        </div>
-        <button class={styles.navButton} onclick={() => showView('topics')}>Choose a topic</button>
-      </div>
+      <IdleScreen onExplore={() => showView('topics')} />
     {:else if view === 'topics'}
-      <div class="grid min-h-0 grid-rows-[auto_1fr]">
-        <div class="pb-8">
-          <h1 class={styles.appTitle}>Choose a topic</h1>
-        </div>
-        <nav class={styles.chapterGrid} aria-label="Topics">
-          {#each chapters as chapter, index (chapter.number)}
-            <button class={styles.chapterButton} onclick={() => openChapter(index)}>
-              <span class={styles.chapterIndex}>{chapter.number}</span>
-              <span class={styles.chapterTitle}>{chapter.title}</span>
-            </button>
-          {/each}
-        </nav>
-      </div>
+      <TopicsView {chapters} onSelectChapter={openChapter} />
     {:else if selectedChapter !== null}
-      {@const chapter = chapters[selectedChapter]}
-      <div class="grid min-h-0 grid-rows-[auto_auto_1fr_auto]">
-        <button class={styles.backButton} onclick={() => showView('topics')}>
-          <span aria-hidden="true">←</span><span>All topics</span>
-        </button>
-
-        <div class={styles.chapterHeading}>
-          <p class={styles.chapterEyebrow}>
-            {chapter.number} / {String(chapters.length).padStart(2, '0')}
-          </p>
-          <h1 class={styles.appTitle}>{chapter.title}</h1>
-        </div>
-
-        <div class={cn(styles.cardGrid, chapter.cards.length === 3 ? 'grid-rows-3' : 'grid-rows-2')}>
-          {#each chapter.cards as card, index (card.title)}
-            {@const flipped = flippedCards.includes(index)}
-            <button
-              class={cn(styles.flipCard, flipped && 'z-10')}
-              aria-pressed={flipped}
-              onclick={() => toggleCard(index)}
-            >
-              <span class={cn(styles.flipInner, flipped && '[transform:rotateY(180deg)]')}>
-                <span class={cn(styles.cardFace, styles.cardFront)}>
-                  <span class={styles.cardTitle}>0{index + 1}</span>
-                  {#if card.image}
-                    <img class={styles.cardImage} src={card.image} alt="" draggable="false" />
-                  {/if}
-                  <span class={styles.cardText}>{card.title}</span>
-                  <span class={styles.cardHint}>Tap to reveal</span>
-                </span>
-                <span class={cn(styles.cardFace, styles.cardBack)}>
-                  <span class={styles.cardTitle}>Sample idea</span>
-                  <span class={styles.cardText}>{card.title}</span>
-                  <span class={styles.cardDescription}>{card.example}</span>
-                  <span class={styles.cardHint}>Tap to close</span>
-                </span>
-              </span>
-            </button>
-          {/each}
-        </div>
-
-        <nav class={styles.chapterNav} aria-label="Chapter navigation">
-          <button
-            class={styles.navButton}
-            disabled={selectedChapter === 0}
-            onclick={() => openChapter(selectedChapter! - 1)}
-          >
-            Previous
-          </button>
-          <span class={styles.pageCount}>{chapter.number} / 06</span>
-          <button
-            class={styles.navButton}
-            disabled={selectedChapter === chapters.length - 1}
-            onclick={() => openChapter(selectedChapter! + 1)}
-          >
-            Next
-          </button>
-        </nav>
+      <ChapterView
+        chapter={chapters[selectedChapter]}
+        chapterCount={chapters.length}
+        {flippedCards}
+        selectedChapterIndex={selectedChapter}
+        onBack={() => showView('topics')}
+        onNavigateChapter={navigateChapter}
+        onToggleCard={toggleCard}
+      />
+    {/if}
+    <span class="sr-only" role="status"
+      >{showIdleWarning
+        ? 'Returning to the start in 30 seconds. Select Keep exploring to stay here.'
+        : ''}</span
+    >
+    {#if showIdleWarning}
+      <div
+        class="absolute bottom-28 left-14 z-30 flex items-center gap-6 rounded-xl border-2 border-[#171913] bg-[#f7f4e8] px-5 py-[18px] text-[20px] font-bold text-[#171913] shadow-[0_12px_24px_rgb(41_32_0/0.2)] max-[70rem]:fixed max-[70rem]:bottom-6 max-[70rem]:left-6 max-[43rem]:right-4 max-[43rem]:bottom-4 max-[43rem]:left-4 max-[43rem]:flex-wrap"
+      >
+        <span>Returning to the start soon</span>
+        <span aria-hidden="true">{secondsRemaining}s</span>
+        <button
+          class="min-h-12 rounded-[7px] bg-[#171913] px-[18px] py-2.5 text-[#f7f4e8] focus-visible:outline-4 focus-visible:outline-offset-[3px] focus-visible:outline-[#171913]"
+          onclick={startIdleTimer}>Keep exploring</button
+        >
       </div>
     {/if}
   </section>
 </main>
+
+<style>
+  .experience-screen::before,
+  .experience-screen::after {
+    position: absolute;
+    z-index: 0;
+    content: '';
+    pointer-events: none;
+  }
+
+  .experience-screen::before {
+    inset: -28px;
+    background: url('/images/chapter-background.jpg') center / cover no-repeat;
+    filter: blur(18px);
+  }
+
+  .experience-screen::after {
+    inset: 0;
+    background: rgb(244 196 0 / 0.48);
+  }
+</style>
