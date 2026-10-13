@@ -26,7 +26,7 @@
 >
   <span
     class={cn(
-      'absolute inset-0 [transform-style:preserve-3d] motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.2,0,0,1)]',
+      'absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.2,0,0,1)] [transform-style:preserve-3d]',
       flipped && '[transform:rotateY(180deg)]'
     )}
   >

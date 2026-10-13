@@ -3,7 +3,7 @@
   import { viewTransition } from '$lib/kiosk/viewTransition';
   import { cn } from '$lib/utils';
   import { onMount, tick } from 'svelte';
-  import { SvelteMap, SvelteSet } from 'svelte/reactivity';
+  import { SvelteSet } from 'svelte/reactivity';
 
   type View = 'chapter' | 'idle' | 'topics';
   const IDLE_TIMEOUT_MS = 240_000;
@@ -20,7 +20,7 @@
   let flippedCards = $state<number[]>([]);
   let screenScale = $state(1);
   let idleTimer = 0;
-  const preloadedChapterImages = new SvelteMap<string, HTMLImageElement>();
+  const preloadedImages: HTMLImageElement[] = [];
 
   function backToTopics() {
     flippedCards = [];
@@ -70,7 +70,7 @@
     showView('chapter');
   }
 
-  function preloadChapterImages() {
+  function preloadMedia() {
     const sources = new SvelteSet<string>();
     for (const chapter of chapters) {
       sources.add(chapter.image);
@@ -82,10 +82,8 @@
 
     for (const src of sources) {
       const image = new Image();
-      image.decoding = 'async';
       image.src = src;
-      preloadedChapterImages.set(src, image);
-      void image.decode().catch(() => {});
+      preloadedImages.push(image);
     }
   }
 
@@ -130,7 +128,7 @@
     document.addEventListener('keydown', resetIdleTimer);
     let preloadFrame = 0;
     const firstPaintFrame = window.requestAnimationFrame(() => {
-      preloadFrame = window.requestAnimationFrame(preloadChapterImages);
+      preloadFrame = window.requestAnimationFrame(preloadMedia);
     });
     return () => {
       window.removeEventListener('resize', fitScreen);
@@ -138,7 +136,7 @@
       document.removeEventListener('keydown', resetIdleTimer);
       window.cancelAnimationFrame(firstPaintFrame);
       window.cancelAnimationFrame(preloadFrame);
-      preloadedChapterImages.clear();
+      preloadedImages.length = 0;
       clearIdleTimer();
     };
   });

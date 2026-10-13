@@ -49,7 +49,7 @@ export const chapters: Chapter[] = [
         title: 'Repair for reuse'
       }
     ],
-    image: '/images/topics/chapter-01.jpg',
+    image: '/images/topics/chapter-01.webp',
     number: '01',
     summary:
       'Initiatives that extend product life, reuse materials, refurbish products, or create closed-loop circular systems.',
@@ -85,7 +85,7 @@ export const chapters: Chapter[] = [
         title: 'Return and recycle'
       }
     ],
-    image: '/images/topics/chapter-02.jpeg',
+    image: '/images/topics/chapter-02.webp',
     number: '02',
     summary:
       'Collection, take-back, recycling, and reverse logistics systems for electrical products, cables, and industrial waste.',
@@ -121,7 +121,7 @@ export const chapters: Chapter[] = [
         title: 'Improve transport packaging'
       }
     ],
-    image: '/images/topics/chapter-03.jpg',
+    image: '/images/topics/chapter-03.webp',
     number: '03',
     summary:
       'Reducing packaging waste, improving transport packaging, and implementing reusable packaging systems.',
@@ -151,7 +151,7 @@ export const chapters: Chapter[] = [
         title: 'Lower-emission mobility'
       }
     ],
-    image: '/images/topics/chapter-04.jpg',
+    image: '/images/topics/chapter-04.webp',
     number: '04',
     summary:
       'Projects that improve energy efficiency or promote sustainable technologies for customers and communities.',
@@ -181,7 +181,7 @@ export const chapters: Chapter[] = [
         title: 'Make carbon data visible'
       }
     ],
-    image: '/images/topics/chapter-05.jpg',
+    image: '/images/topics/chapter-05.webp',
     number: '05',
     summary:
       'Projects that improve energy efficiency or promote sustainable technologies for customers and communities.',
@@ -204,7 +204,7 @@ export const chapters: Chapter[] = [
         title: 'Light underserved communities'
       }
     ],
-    image: '/images/topics/chapter-06.jpg',
+    image: '/images/topics/chapter-06.webp',
     number: '06',
     summary:
       'Initiatives focused on awareness, employee/customer engagement, training, and positive community impact.',

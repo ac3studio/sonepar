@@ -1,8 +1,3 @@
-function cubicCoordinate(t: number, first: number, second: number) {
-  const inverse = 1 - t;
-  return 3 * inverse * inverse * t * first + 3 * inverse * t * t * second + t * t * t;
-}
-
 function cubicBezier(x1: number, y1: number, x2: number, y2: number) {
   return (progress: number) => {
     let low = 0;
@@ -21,40 +16,43 @@ function cubicBezier(x1: number, y1: number, x2: number, y2: number) {
   };
 }
 
+function cubicCoordinate(t: number, first: number, second: number) {
+  const inverse = 1 - t;
+  return (
+    3 * inverse * inverse * t * first + 3 * inverse * t * t * second + t * t * t
+  );
+}
+
 const easeOut = cubicBezier(0.23, 1, 0.32, 1);
 const easeInOut = cubicBezier(0.77, 0, 0.175, 1);
 
-function fade(duration: number) {
+export function chapterTransition(
+  _node: Element,
+  direction: -1 | 1,
+  options: { direction: 'both' | 'in' | 'out' }
+) {
+  const sign = options.direction === 'out' ? -direction : direction;
+
   return {
-    duration,
-    easing: easeOut,
-    css: (progress: number) => `opacity: ${progress}`
+    css: (progress: number) =>
+      `opacity: ${progress}; transform: translateX(${(1 - progress) * 24 * sign}px)`,
+    duration: 280,
+    easing: easeInOut
   };
+}
+
+export function stationaryFade() {
+  return fade(260);
 }
 
 export function viewTransition() {
   return fade(200);
 }
 
-export function chapterTransition(
-  _node: Element,
-  direction: -1 | 1,
-  options: { direction: 'in' | 'out' | 'both' }
-) {
-  const reducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
-  ).matches;
-  const offset = reducedMotion ? 0 : 24;
-  const sign = options.direction === 'out' ? -direction : direction;
-
+function fade(duration: number) {
   return {
-    duration: reducedMotion ? 200 : 280,
-    easing: easeInOut,
-    css: (progress: number) =>
-      `opacity: ${progress}; transform: translateX(${(1 - progress) * offset * sign}px)`
+    css: (progress: number) => `opacity: ${progress}`,
+    duration,
+    easing: easeOut
   };
-}
-
-export function stationaryFade() {
-  return fade(260);
 }

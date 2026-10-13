@@ -14,7 +14,6 @@
     const lines = Array.from(
       node.querySelectorAll<HTMLElement>('.idle-cta-line')
     );
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let timeline: gsap.core.Timeline | undefined;
     let splits: SplitText[] = [];
 
@@ -27,8 +26,6 @@
 
     function start() {
       stop();
-      if (reducedMotion.matches) return;
-
       splits = lines.map((line) =>
         SplitText.create(line, { type: 'words,chars' })
       );
@@ -60,12 +57,10 @@
       });
     }
 
-    reducedMotion.addEventListener('change', start);
     start();
 
     return {
       destroy() {
-        reducedMotion.removeEventListener('change', start);
         stop();
       }
     };
@@ -110,12 +105,6 @@
     }
     50% {
       opacity: 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .idle-prompt {
-      animation: none;
     }
   }
 </style>
