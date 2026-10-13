@@ -43,31 +43,31 @@ export const chapters: Chapter[] = [
       {
         example:
           'Since 2024, Sacchi, a Sonepar Company in Italy, has been repairing a wide range of products and transforming them into reusable resources with the help of local partners.',
-        image: '/images/chapter-01/sacchi.jpeg',
+        image: '/images/chapter-01/sacchi-hd.webp',
         logos: [{ alt: 'Sacchi', src: '/images/chapter-01/sacchi-logo.png' }],
         logoSize: 'large',
         title: 'Repair for reuse'
       }
     ],
-    image: '/images/topics/chapter-01.webp',
+    image: '/images/topics/chapter-01-hd.webp',
     number: '01',
     summary:
       'Initiatives that extend product life, reuse materials, refurbish products, or create closed-loop circular systems.',
-    title: 'Circular economy & Product life extension'
+    title: 'Circular economy & product life extension'
   },
   {
     cards: [
       {
         example:
           'Since 2024, Sonepar France, in partnership with Nexans, has been collecting used cables and recovering valuable raw materials through dedicated recycling solutions.',
-        image: '/images/chapter-02/nexans.avif',
+        image: '/images/chapter-02/nexans-hd.webp',
         logos: [{ alt: 'Nexans', src: '/images/chapter-02/nexans-logo.webp' }],
         title: 'Recover used cables'
       },
       {
         example:
           'Since 2025, Sonepar Spain and local partners have been operating a smart collection system for small electrical waste.',
-        image: '/images/chapter-02/spain.jpg',
+        image: '/images/chapter-02/spain-hd.webp',
         title: 'Collect electrical waste'
       },
       {
@@ -85,18 +85,18 @@ export const chapters: Chapter[] = [
         title: 'Return and recycle'
       }
     ],
-    image: '/images/topics/chapter-02.webp',
+    image: '/images/topics/chapter-02-hd.webp',
     number: '02',
     summary:
       'Collection, take-back, recycling, and reverse logistics systems for electrical products, cables, and industrial waste.',
-    title: 'Reverse logistic'
+    title: 'Reverse logistics'
   },
   {
     cards: [
       {
         example:
           'Since 2023, Sonepar Brazil, in partnership with Prysmian, has been reusing cable drums to reduce virgin wood consumption.',
-        image: '/images/chapter-03/prysmian.webp',
+        image: '/images/chapter-03/prysmian-hd.webp',
         logos: [
           { alt: 'Prysmian', src: '/images/chapter-03/prysmian-logo.webp' }
         ],
@@ -105,14 +105,14 @@ export const chapters: Chapter[] = [
       {
         example:
           'Since 2025, Sonepar Sweden and ABB have collaborated on a packaging redesign initiative to reduce waste, optimize transportation, and improve logistics efficiency.',
-        image: '/images/chapter-03/abb.webp',
+        image: '/images/chapter-03/abb-hd.webp',
         logos: [{ alt: 'ABB', src: '/images/chapter-03/abb-logo.png' }],
         title: 'Redesign packaging'
       },
       {
         example:
           'Since 2024, Technische Unie, a Sonepar company in the Netherlands, and Eaton have been using data-driven insights to improve transport packaging performance.',
-        image: '/images/chapter-03/eaton.webp',
+        image: '/images/chapter-03/eaton-hd.webp',
         logos: [
           { alt: 'Eaton', src: '/images/chapter-03/eaton-logo.png' },
           { alt: 'Technische Unie', src: '/images/chapter-03/tu-logo.png' }
@@ -121,48 +121,48 @@ export const chapters: Chapter[] = [
         title: 'Improve transport packaging'
       }
     ],
-    image: '/images/topics/chapter-03.webp',
+    image: '/images/topics/chapter-03-hd.webp',
     number: '03',
     summary:
       'Reducing packaging waste, improving transport packaging, and implementing reusable packaging systems.',
-    title: 'Sustainable packaging & Waste reduction'
+    title: 'Sustainable packaging & waste reduction'
   },
   {
     cards: [
       {
         example:
           'Sonepar Brazil is advancing sustainable logistics through the deployment of electric vehicles for lower-emission deliveries.',
-        image: '/images/chapter-04/brazil.webp',
+        image: '/images/chapter-04/brazil-hd.webp',
         location: 'Brazil',
         title: 'Electric vehicle'
       },
       {
         example:
           'Technische Unie, a Sonepar company in the Netherlands, has been improving transport packaging performance through a data-driven optimization initiative.',
-        image: '/images/chapter-04/netherlands.webp',
+        image: '/images/chapter-04/netherlands-hd.webp',
         location: 'The Netherlands',
         title: 'Optimize transport packaging'
       },
       {
         example:
           'Sonepar Spain is accelerating the transition to low-carbon logistics through fleet decarbonization and lower-emission mobility solutions.',
-        image: '/images/chapter-04/spain.webp',
+        image: '/images/chapter-04/spain-left-enhanced.png',
         location: 'Spain',
         title: 'Lower-emission mobility'
       }
     ],
-    image: '/images/topics/chapter-04.webp',
+    image: '/images/topics/chapter-04-hd.webp',
     number: '04',
     summary:
       'Projects that improve energy efficiency or promote sustainable technologies for customers and communities.',
-    title: 'Low-carbon transport & Operations'
+    title: 'Low-carbon transport & operations'
   },
   {
     cards: [
       {
         example:
           'Sonepar USA, in partnership with Acuity, donates energy-efficient lighting retrofits to charitable organizations.',
-        image: '/images/chapter-05/acuity.webp',
+        image: '/images/chapter-05/acuity-hd.webp',
         logos: [{ alt: 'Acuity', src: '/images/chapter-05/acuity-logo.png' }],
         title: 'Lighting for communities'
       },
@@ -181,33 +181,33 @@ export const chapters: Chapter[] = [
         title: 'Make carbon data visible'
       }
     ],
-    image: '/images/topics/chapter-05.webp',
+    image: '/images/topics/chapter-05-hd.webp',
     number: '05',
     summary:
       'Projects that improve energy efficiency or promote sustainable technologies for customers and communities.',
-    title: 'Energy efficiency & Sustainable solutions'
+    title: 'Energy efficiency & sustainable solutions'
   },
   {
     cards: [
       {
         example:
           'Sonepar Brazil promotes sustainability training programs and campaigns in collaboration with suppliers, raising awareness and accelerating ESG adoption across the value chain.',
-        image: '/images/chapter-06/brazil.webp',
+        image: '/images/chapter-06/brazil-hd.webp',
         title: 'Build sustainability awareness'
       },
       {
         example:
           'In Peru, Sonepar and Signify collaborate on social initiatives by donating lighting solutions to underserved communities, improving safety and quality of life.',
-        image: '/images/chapter-06/peru.webp',
+        image: '/images/chapter-06/peru-hd.webp',
         logos: [{ alt: 'Signify', src: '/images/chapter-06/signify-logo.png' }],
         logoSize: 'extra-large',
         title: 'Light underserved communities'
       }
     ],
-    image: '/images/topics/chapter-06.webp',
+    image: '/images/topics/chapter-06-hd.webp',
     number: '06',
     summary:
       'Initiatives focused on awareness, employee/customer engagement, training, and positive community impact.',
-    title: 'Sustainability engagement & Social impact'
+    title: 'Sustainability engagement & social impact'
   }
 ];
