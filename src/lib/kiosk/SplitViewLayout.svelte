@@ -13,7 +13,7 @@
 
 <div
   class={cn(
-    'grid min-h-0 grid-cols-[470px_minmax(0,1fr)] items-center gap-16',
+    'grid min-h-0 grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-center gap-12',
     className
   )}
 >

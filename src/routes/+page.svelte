@@ -3,13 +3,14 @@
   import { viewTransition } from '$lib/kiosk/viewTransition';
   import { cn } from '$lib/utils';
   import { onMount, tick } from 'svelte';
+  import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 
   type View = 'chapter' | 'idle' | 'topics';
   const IDLE_TIMEOUT_MS = 240_000;
 
   const styles = {
     screen:
-      'experience-screen isolate absolute top-1/2 left-1/2 grid h-[1080px] w-[1920px] origin-center grid-rows-[105px_minmax(0,1fr)] overflow-hidden bg-brand px-14 pt-12 pb-10 text-foreground [transform:translate(-50%,-50%)_scale(var(--screen-scale))] [touch-action:manipulation]',
+      'experience-screen isolate absolute top-1/2 left-1/2 grid h-[1080px] w-[1920px] origin-center grid-rows-[105px_minmax(0,1fr)] overflow-hidden bg-brand px-[96px] pt-12 pb-10 text-foreground [transform:translate(-50%,-50%)_scale(var(--screen-scale))] [touch-action:manipulation]',
     stage: 'fixed inset-0 overflow-hidden bg-brand'
   };
 
@@ -19,7 +20,12 @@
   let flippedCards = $state<number[]>([]);
   let screenScale = $state(1);
   let idleTimer = 0;
-  const preloadedChapterImages = new Map<string, HTMLImageElement>();
+  const preloadedChapterImages = new SvelteMap<string, HTMLImageElement>();
+
+  function backToTopics() {
+    flippedCards = [];
+    showView('topics');
+  }
 
   function clearIdleTimer() {
     window.clearTimeout(idleTimer);
@@ -60,8 +66,27 @@
           : -1
         : 1;
     selectedChapter = index;
-    flippedCards = chapters[index].initiallyFlippedCardIndexes ?? [];
+    flippedCards = [];
     showView('chapter');
+  }
+
+  function preloadChapterImages() {
+    const sources = new SvelteSet<string>();
+    for (const chapter of chapters) {
+      sources.add(chapter.image);
+      for (const card of chapter.cards) {
+        if (card.image) sources.add(card.image);
+        card.logos?.forEach((logo) => sources.add(logo.src));
+      }
+    }
+
+    for (const src of sources) {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = src;
+      preloadedChapterImages.set(src, image);
+      void image.decode().catch(() => {});
+    }
   }
 
   function resetIdleTimer() {
@@ -96,24 +121,6 @@
     flippedCards = flippedCards.includes(index)
       ? flippedCards.filter((cardIndex) => cardIndex !== index)
       : [...flippedCards, index];
-  }
-
-  function preloadChapterImages() {
-    const sources = new Set<string>();
-    for (const chapter of chapters) {
-      for (const card of chapter.cards) {
-        if (card.image) sources.add(card.image);
-        card.logos?.forEach((logo) => sources.add(logo.src));
-      }
-    }
-
-    for (const src of sources) {
-      const image = new Image();
-      image.decoding = 'async';
-      image.src = src;
-      preloadedChapterImages.set(src, image);
-      void image.decode().catch(() => {});
-    }
   }
 
   onMount(() => {
@@ -153,24 +160,18 @@
   >
     <header
       class={cn(
-        'border-foreground relative z-10 flex items-start justify-between border-b [mix-blend-mode:multiply]',
-        view === 'idle' && 'items-end justify-center gap-28 border-b-0'
+        'border-foreground/25 relative z-10 flex items-start justify-between border-b',
+        view === 'idle' && 'border-b-0'
       )}
     >
       <img
-        class={cn(
-          'block h-auto w-[112px] brightness-0',
-          view === 'idle' && 'w-[150px]'
-        )}
+        class="block h-auto w-[112px] brightness-0"
         src="/images/strategic-supplier-summit.svg"
         alt="Strategic Supplier Summit"
       />
       <img
-        class={cn(
-          'mt-[-8px] block h-auto w-[205px]',
-          view === 'idle' && 'mt-0 w-[270px]'
-        )}
-        src="/images/sonepar-logo.png"
+        class="mt-[-8px] ml-auto block h-auto w-[205px] brightness-0"
+        src="/images/sonepar-logo.svg"
         alt="Sonepar"
       />
     </header>
@@ -189,7 +190,7 @@
               {chapterDirection}
               {flippedCards}
               selectedChapterIndex={selectedChapter}
-              onBack={() => showView('topics')}
+              onBack={backToTopics}
               onNavigateChapter={navigateChapter}
               onToggleCard={toggleCard}
             />

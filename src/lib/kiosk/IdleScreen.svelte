@@ -85,14 +85,15 @@
   >
     <span
       class="idle-cta-line text-hero absolute inset-0 block opacity-0 first:opacity-100"
-      >Explore Sonepar’s<br />sustainability initiatives</span
+      >Sustainability in action<br />with our suppliers.</span
     >
     <span class="idle-cta-line text-hero absolute inset-0 block opacity-0"
-      >Discover the stories<br />behind our progress</span
+      >Tap to discover real stories of<br />collaboration and sustainable
+      progress.</span
     >
   </span>
   <span
-    class="idle-prompt text-label text-foreground absolute bottom-[8%] left-1/2 -translate-x-1/2 px-6 py-4 text-center uppercase"
+    class="idle-prompt text-label text-foreground absolute bottom-[8%] left-1/2 -translate-x-1/2 px-6 py-4 text-center"
     aria-hidden="true">Tap to explore</span
   >
 </button>

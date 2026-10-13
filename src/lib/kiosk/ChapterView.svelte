@@ -41,8 +41,19 @@
         class="!justify-start !gap-2 !border-2  !shadow-none"
         onclick={onBack}
       >
-        <svg aria-hidden="true" class="size-5 shrink-0" viewBox="0 0 24 24" fill="none">
-          <path d="m14.5 5-7 7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          aria-hidden="true"
+          class="size-5 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <path
+            d="m14.5 5-7 7 7 7"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         <span>Topics</span>
       </KioskButton>
@@ -50,13 +61,13 @@
         {#key chapter.number}
           <div class="absolute inset-0" transition:stationaryFade>
             <h1
-              class="text-display mt-[110px] mb-0 max-w-[470px] tracking-[-0.065em] text-balance focus:outline-none"
+              class="text-display mt-[110px] mb-0 max-w-[520px] tracking-[-0.065em] text-balance focus:outline-none"
               id={`chapter-view-title-${chapter.number}`}
               tabindex="-1"
             >
               {chapter.title}
             </h1>
-            <p class="text-body mt-6 max-w-[430px]">
+            <p class="text-body mt-6 max-w-[500px]">
               {chapter.summary}
             </p>
           </div>
@@ -74,8 +85,9 @@
           transition:chapterTransition={chapterDirection}
         >
           <div
-            class="grid h-full w-full grid-cols-3 gap-6"
+            class="grid h-full w-full gap-6"
             class:grid-cols-2={chapter.cards.length === 2}
+            class:grid-cols-3={chapter.cards.length !== 2}
           >
             {#each chapter.cards as card, index (card.title)}
               <StoryCard
@@ -106,7 +118,13 @@
         onclick={() => onNavigateChapter(-1)}
       >
         <svg aria-hidden="true" class="size-7" viewBox="0 0 24 24" fill="none">
-          <path d="m14.5 5-7 7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="m14.5 5-7 7 7 7"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </KioskButton>
       <KioskButton
@@ -116,7 +134,13 @@
         onclick={() => onNavigateChapter(1)}
       >
         <svg aria-hidden="true" class="size-7" viewBox="0 0 24 24" fill="none">
-          <path d="m9.5 5 7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="m9.5 5 7 7-7 7"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </KioskButton>
     </div>

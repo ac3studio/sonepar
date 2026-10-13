@@ -3,11 +3,13 @@ export type Card = {
   image?: string;
   location?: string;
   logos?: Logo[];
+  logoSize?: 'extra-large' | 'large';
+  logoSpacing?: 'wide';
   title: string;
 };
 export type Chapter = {
   cards: Card[];
-  initiallyFlippedCardIndexes?: number[];
+  image: string;
   number: string;
   summary: string;
   title: string;
@@ -43,9 +45,11 @@ export const chapters: Chapter[] = [
           'Since 2024, Sacchi, a Sonepar Company in Italy, has been repairing a wide range of products and transforming them into reusable resources with the help of local partners.',
         image: '/images/chapter-01/sacchi.jpeg',
         logos: [{ alt: 'Sacchi', src: '/images/chapter-01/sacchi-logo.png' }],
+        logoSize: 'large',
         title: 'Repair for reuse'
       }
     ],
+    image: '/images/topics/chapter-01.jpg',
     number: '01',
     summary:
       'Initiatives that extend product life, reuse materials, refurbish products, or create closed-loop circular systems.',
@@ -77,9 +81,11 @@ export const chapters: Chapter[] = [
             src: '/images/chapter-02/schneider-logo.png'
           }
         ],
+        logoSize: 'large',
         title: 'Return and recycle'
       }
     ],
+    image: '/images/topics/chapter-02.jpeg',
     number: '02',
     summary:
       'Collection, take-back, recycling, and reverse logistics systems for electrical products, cables, and industrial waste.',
@@ -111,10 +117,11 @@ export const chapters: Chapter[] = [
           { alt: 'Eaton', src: '/images/chapter-03/eaton-logo.png' },
           { alt: 'Technische Unie', src: '/images/chapter-03/tu-logo.png' }
         ],
+        logoSpacing: 'wide',
         title: 'Improve transport packaging'
       }
     ],
-    initiallyFlippedCardIndexes: [0],
+    image: '/images/topics/chapter-03.jpg',
     number: '03',
     summary:
       'Reducing packaging waste, improving transport packaging, and implementing reusable packaging systems.',
@@ -124,10 +131,10 @@ export const chapters: Chapter[] = [
     cards: [
       {
         example:
-          'Since 2023, Sonepar Brazil, in partnership with Prysmian, has been reusing cable drums to reduce virgin wood consumption.',
+          'Sonepar Brazil is advancing sustainable logistics through the deployment of electric vehicles for lower-emission deliveries.',
         image: '/images/chapter-04/brazil.webp',
         location: 'Brazil',
-        title: 'Reuse cable drums'
+        title: 'Electric vehicle'
       },
       {
         example:
@@ -144,9 +151,10 @@ export const chapters: Chapter[] = [
         title: 'Lower-emission mobility'
       }
     ],
+    image: '/images/topics/chapter-04.jpg',
     number: '04',
     summary:
-      'Sonepar Brazil is advancing sustainable logistics through the deployment of electric vehicles for lower-emission deliveries.',
+      'Projects that improve energy efficiency or promote sustainable technologies for customers and communities.',
     title: 'Low-carbon transport & Operations'
   },
   {
@@ -173,6 +181,7 @@ export const chapters: Chapter[] = [
         title: 'Make carbon data visible'
       }
     ],
+    image: '/images/topics/chapter-05.jpg',
     number: '05',
     summary:
       'Projects that improve energy efficiency or promote sustainable technologies for customers and communities.',
@@ -191,9 +200,11 @@ export const chapters: Chapter[] = [
           'In Peru, Sonepar and Signify collaborate on social initiatives by donating lighting solutions to underserved communities, improving safety and quality of life.',
         image: '/images/chapter-06/peru.webp',
         logos: [{ alt: 'Signify', src: '/images/chapter-06/signify-logo.png' }],
+        logoSize: 'extra-large',
         title: 'Light underserved communities'
       }
     ],
+    image: '/images/topics/chapter-06.jpg',
     number: '06',
     summary:
       'Initiatives focused on awareness, employee/customer engagement, training, and positive community impact.',
