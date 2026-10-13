@@ -43,7 +43,7 @@ export const chapters: Chapter[] = [
       {
         example:
           'Since 2024, Sacchi, a Sonepar Company in Italy, has been repairing a wide range of products and transforming them into reusable resources with the help of local partners.',
-        image: '/images/chapter-01/sacchi-hd.webp',
+        image: '/images/chapter-01/sacchi-enhanced.png',
         logos: [{ alt: 'Sacchi', src: '/images/chapter-01/sacchi-logo.png' }],
         logoSize: 'large',
         title: 'Repair for reuse'
@@ -60,14 +60,14 @@ export const chapters: Chapter[] = [
       {
         example:
           'Since 2024, Sonepar France, in partnership with Nexans, has been collecting used cables and recovering valuable raw materials through dedicated recycling solutions.',
-        image: '/images/chapter-02/nexans-hd.webp',
+        image: '/images/chapter-02/nexans-enhanced.png',
         logos: [{ alt: 'Nexans', src: '/images/chapter-02/nexans-logo.webp' }],
         title: 'Recover used cables'
       },
       {
         example:
           'Since 2025, Sonepar Spain and local partners have been operating a smart collection system for small electrical waste.',
-        image: '/images/chapter-02/spain-hd.webp',
+        image: '/images/chapter-02/spain-enhanced.png',
         title: 'Collect electrical waste'
       },
       {
@@ -115,7 +115,10 @@ export const chapters: Chapter[] = [
         image: '/images/chapter-03/eaton-hd.webp',
         logos: [
           { alt: 'Eaton', src: '/images/chapter-03/eaton-logo.png' },
-          { alt: 'Technische Unie', src: '/images/chapter-03/tu-logo.png' }
+          {
+            alt: 'Technische Unie',
+            src: '/images/chapter-03/tu-logo-enhanced.png'
+          }
         ],
         logoSpacing: 'wide',
         title: 'Improve transport packaging'
